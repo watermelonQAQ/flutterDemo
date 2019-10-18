@@ -1,3 +1,4 @@
+import 'dart:math';
 
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Welcome to Flutter',
+      theme: new ThemeData(
+        primaryColor: Colors.blue,
+      ),
       home: new RandomWords(),
     );
   }
@@ -22,19 +26,50 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
-
   final _suggestions = <WordPair>[];
   final _saved = new Set<WordPair>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Startup Name Generator"),
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved)
+        ],
       ),
       body: _buildSuggestions(),
+    );
+  }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          final tiles = _saved.map(
+            (pair) {
+              return new ListTile(
+                title: new Text(
+                  pair.asPascalCase,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+          final divided = ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
+
+          return new Scaffold(
+            appBar: new AppBar(
+              title: new Text("Saved Suggestions"),
+            ),
+            body: new ListView(children: divided),
+          );
+        },
+      ),
     );
   }
 
@@ -50,12 +85,10 @@ class RandomWordsState extends State<RandomWords> {
             _suggestions.addAll(generateWordPairs().take(10));
           }
           return _buildRow(_suggestions[index]);
-        }
-    );
+        });
   }
 
-  Widget _buildRow(WordPair pair){
-
+  Widget _buildRow(WordPair pair) {
     final alreadSaved = _saved.contains(pair);
     return new ListTile(
       title: new Text(
@@ -63,15 +96,18 @@ class RandomWordsState extends State<RandomWords> {
         style: _biggerFont,
       ),
       trailing: new Icon(
-        alreadSaved?Icons.favorite:Icons.favorite_border,
-        color: alreadSaved?Colors.red:null,
+        alreadSaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadSaved ? Colors.red : null,
       ),
+      onTap: () {
+        setState(() {
+          if (alreadSaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
     );
-
+  }
 }
-
-
-}
-
-
-
