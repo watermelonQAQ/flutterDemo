@@ -1,11 +1,16 @@
-import 'dart:math';
 
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/demo3.dart';
+import 'package:flutter_demo/permission_demo.dart';
+import 'package:flutter_demo/plugin_test.dart';
 
-void main() => runApp(new MyApp());
+import 'demo2.dart';
 
-class MyApp extends StatelessWidget {
+void main() => runApp(new PluginTestWidget());
+
+
+class Demo1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -111,3 +116,4 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 }
+
