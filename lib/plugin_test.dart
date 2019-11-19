@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -30,6 +31,7 @@ class PluginTestWidget extends StatelessWidget {
             addItem("设备信息", DeviceInfoTest()),
             addItem("软件信息", PackageInfoTest()),
             addItem("定位权限申请", ApplyPermissionTest()),
+            addItem("JSON序列化与反序列化", JsonTest()),
           ],
         ),
       ),
@@ -228,7 +230,6 @@ class _ApplyPermissionTestState extends State<ApplyPermissionTest> {
 
   @override
   void initState() {
-
     checkPermissionStatus();
     super.initState();
   }
@@ -238,19 +239,19 @@ class _ApplyPermissionTestState extends State<ApplyPermissionTest> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text("定位权限状态：" + state+"   "),
+        Text("定位权限状态：" + state + "   "),
         Row(
           children: <Widget>[
             RaisedButton(
               color: Colors.blue,
               child: Text("权限申请"),
-              onPressed: () async{
-                final Map<PermissionGroup, PermissionStatus> permissionRequestResult
-                = await PermissionHandler().requestPermissions([PermissionGroup.location]);
-                state =  permissionRequestResult[PermissionGroup.location].toString();
-                setState(() {
-
-                });
+              onPressed: () async {
+                final Map<PermissionGroup, PermissionStatus>
+                    permissionRequestResult = await PermissionHandler()
+                        .requestPermissions([PermissionGroup.location]);
+                state = permissionRequestResult[PermissionGroup.location]
+                    .toString();
+                setState(() {});
               },
             ),
             IconButton(
@@ -267,12 +268,94 @@ class _ApplyPermissionTestState extends State<ApplyPermissionTest> {
     );
   }
 
-  void checkPermissionStatus() async{
-    PermissionStatus permissionStatus = await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
+  void checkPermissionStatus() async {
+    PermissionStatus permissionStatus = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.location);
     state = permissionStatus.toString();
-    setState(() {
-
-    });
-
+    setState(() {});
   }
+}
+
+class JsonTest extends StatefulWidget {
+  @override
+  _JsonTestState createState() => _JsonTestState();
+}
+
+class _JsonTestState extends State<JsonTest> {
+  TextEditingController controllerName = new TextEditingController();
+  TextEditingController controllerAge = new TextEditingController();
+  String userJson = "-1";
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: TextField(
+                controller: controllerName,
+                decoration: InputDecoration(
+                  labelText: "姓名",
+                  hintText: "输入姓名",
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            Expanded(
+              flex: 2,
+              child: TextField(
+                controller: controllerAge,
+                decoration: InputDecoration(
+                  labelText: "年龄",
+                  hintText: "输入年龄",
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            Expanded(
+              flex: 1,
+              child: RaisedButton(
+                color: Colors.blue,
+                child: Text("确认"),
+                onPressed: () {
+                  User user =
+                      User(controllerName.text, int.parse(controllerAge.text));
+                  userJson = jsonEncode(user);
+                  setState(() {});
+                },
+              ),
+            ),
+          ],
+        ),
+        Text("序列化结果:$userJson"),
+        Text("反序列化结果:" + User.fromJson(jsonDecode(userJson)).name+","
+            +User.fromJson(jsonDecode(userJson)).age.toString()),
+      ],
+    );
+  }
+}
+
+class User {
+  String name;
+  int age;
+
+  User(this.name, this.age);
+
+  User.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        age = json['age'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'age': age,
+      };
 }

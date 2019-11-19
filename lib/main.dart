@@ -5,9 +5,11 @@ import 'package:flutter_demo/demo3.dart';
 import 'package:flutter_demo/permission_demo.dart';
 import 'package:flutter_demo/plugin_test.dart';
 
+import 'blue_demo.dart';
 import 'demo2.dart';
 
-void main() => runApp(new PluginTestWidget());
+void main() => runApp(new FlutterBlueApp());
+//void main() => runApp(new PluginTestWidget());
 
 
 class Demo1 extends StatelessWidget {
