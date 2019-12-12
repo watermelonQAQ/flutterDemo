@@ -9,6 +9,8 @@ import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'hero_animation.dart';
+
 ///创建时间：2019/11/11 11:03
 ///作者：杨淋
 ///描述：插件功能测试页面
@@ -32,6 +34,7 @@ class PluginTestWidget extends StatelessWidget {
             addItem("软件信息", PackageInfoTest()),
             addItem("定位权限申请", ApplyPermissionTest()),
             addItem("JSON序列化与反序列化", JsonTest()),
+            addItem("Hero动画", HeroAnimationRoute()),
           ],
         ),
       ),
@@ -336,9 +339,9 @@ class _JsonTestState extends State<JsonTest> {
             ),
           ],
         ),
-        Text("序列化结果:$userJson"),
-        Text("反序列化结果:" + User.fromJson(jsonDecode(userJson)).name+","
-            +User.fromJson(jsonDecode(userJson)).age.toString()),
+        userJson != "-1"?Text("序列化结果:$userJson"):SizedBox(),
+        userJson != "-1"?Text("反序列化结果:" + User.fromJson(jsonDecode(userJson)).name+","
+            +User.fromJson(jsonDecode(userJson)).age.toString()):SizedBox(),
       ],
     );
   }
