@@ -38,12 +38,16 @@ class PluginTestWidget extends StatelessWidget {
             addItem("JSON序列化与反序列化", JsonTest()),
             addItem("Hero动画", HeroAnimationRoute()),
             addItem("普通动画", AnimationTest()),
-            addItem("自定义Wave", WaveWidget(
-              beginRadius: 20,
-              endRadius: 200,
-              color: Colors.blue[300],
-              duration: Duration(milliseconds: 1500),
-            )),
+            addItem(
+                "自定义Wave",
+                WaveWidget(
+                  beginRadius: 20,
+                  endRadius: 200,
+                  color: Colors.blue[300],
+                  duration: Duration(milliseconds: 2500),
+                  count: 5,
+                  paintingStyle: PaintingStyle.fill,
+                )),
           ],
         ),
       ),
@@ -348,9 +352,13 @@ class _JsonTestState extends State<JsonTest> {
             ),
           ],
         ),
-        userJson != "-1"?Text("序列化结果:$userJson"):SizedBox(),
-        userJson != "-1"?Text("反序列化结果:" + User.fromJson(jsonDecode(userJson)).name+","
-            +User.fromJson(jsonDecode(userJson)).age.toString()):SizedBox(),
+        userJson != "-1" ? Text("序列化结果:$userJson") : SizedBox(),
+        userJson != "-1"
+            ? Text("反序列化结果:" +
+                User.fromJson(jsonDecode(userJson)).name +
+                "," +
+                User.fromJson(jsonDecode(userJson)).age.toString())
+            : SizedBox(),
       ],
     );
   }

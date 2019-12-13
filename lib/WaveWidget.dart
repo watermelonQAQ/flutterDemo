@@ -8,6 +8,8 @@ class WaveWidget extends StatefulWidget {
   double beginRadius;
   double endRadius;
   Color color;
+  int count;
+  PaintingStyle paintingStyle;
   Duration duration;
 
   WaveWidget({
@@ -15,6 +17,8 @@ class WaveWidget extends StatefulWidget {
     this.endRadius,
     this.color,
     this.duration,
+    this.count,
+    this.paintingStyle,
   });
 
   @override
@@ -56,16 +60,17 @@ class _WaveWidgetState extends State<WaveWidget>
             opacity: 1 - controller.value,
             minRadius: widget.beginRadius,
             maxRadius: widget.endRadius,
+            paintingStyle: widget.paintingStyle,
+            count: widget.count,
             context: context,
           ),
           child: RepaintBoundary(
 //              child:
-              child:   Icon(
-                Icons.bluetooth,
-                color: Colors.white,
-                size: widget.beginRadius,
-              )
-          )),
+              child: Icon(
+            Icons.bluetooth,
+            color: Colors.white,
+            size: widget.beginRadius,
+          ))),
     ));
   }
 }
@@ -77,33 +82,49 @@ class WavePainter extends CustomPainter {
   Color color;
   double offset;
   double opacity;
-  Paint wavePaint = Paint();
+  PaintingStyle paintingStyle;
   BuildContext context;
+  int count;
 
   WavePainter(
-      {this.color, this.radius, this.offset, this.opacity, this.minRadius,this.maxRadius,this.context});
+      {this.color,
+      this.radius,
+      this.offset,
+      this.opacity,
+      this.minRadius,
+      this.maxRadius,
+      this.paintingStyle,
+      this.context,
+      this.count});
 
   @override
   void paint(Canvas canvas, Size size) {
-
-    wavePaint
-      ..style = PaintingStyle.fill
+    Paint wavePaint = Paint()
+      ..style = paintingStyle
       ..color = color.withOpacity(opacity);
-//    double xOffset = MediaQuery.of(context).size.width;
-    double xOffset = context.size.width/2;
+    double xOffset = context.size.width / 2;
 
     canvas.drawCircle(Offset(xOffset, offset), radius, wavePaint);
 
-    if(radius > (maxRadius + minRadius )/2){
-      wavePaint
-        ..color = color.withOpacity(opacity + 0.5);
-      canvas.drawCircle(Offset(xOffset, offset), radius-(maxRadius + minRadius) /2 + minRadius, wavePaint);
+    double length = (maxRadius + minRadius) / count;
+    for (int i = 1; i < count; i++) {
+      double startLength = length * i;
 
-    }else{
-      wavePaint
-        ..color = color.withOpacity(opacity - 0.5);
-      canvas.drawCircle(Offset(xOffset, offset), radius-minRadius+(maxRadius + minRadius) /2, wavePaint);
-
+      if (radius > startLength) {
+        wavePaint
+          ..color = color.withOpacity((opacity + 1.0 / count * i) > 1
+              ? 1
+              : (opacity + 1.0 / count * i));
+        canvas.drawCircle(Offset(xOffset, offset),
+            radius - startLength + minRadius, wavePaint);
+      } else {
+        wavePaint
+          ..color = color.withOpacity((opacity + 1.0 / count * i - 1) < 0
+              ? 0
+              : (opacity + 1.0 / count * i - 1));
+        canvas.drawCircle(Offset(xOffset, offset),
+            radius + maxRadius - startLength, wavePaint);
+      }
     }
 
     wavePaint..color = Colors.blue;
