@@ -9,6 +9,8 @@ import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'WaveWidget.dart';
+import 'animation.dart';
 import 'hero_animation.dart';
 
 ///创建时间：2019/11/11 11:03
@@ -35,6 +37,13 @@ class PluginTestWidget extends StatelessWidget {
             addItem("定位权限申请", ApplyPermissionTest()),
             addItem("JSON序列化与反序列化", JsonTest()),
             addItem("Hero动画", HeroAnimationRoute()),
+            addItem("普通动画", AnimationTest()),
+            addItem("自定义Wave", WaveWidget(
+              beginRadius: 20,
+              endRadius: 200,
+              color: Colors.blue[300],
+              duration: Duration(milliseconds: 1500),
+            )),
           ],
         ),
       ),
