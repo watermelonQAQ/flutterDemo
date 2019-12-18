@@ -106,24 +106,25 @@ class WavePainter extends CustomPainter {
 
     canvas.drawCircle(Offset(xOffset, offset), radius, wavePaint);
 
-    double length = (maxRadius + minRadius) / count;
+
+    double length = (maxRadius - minRadius) / count;
     for (int i = 1; i < count; i++) {
       double startLength = length * i;
 
-      if (radius > startLength) {
+      if ((radius-minRadius) > startLength) {
         wavePaint
           ..color = color.withOpacity((opacity + 1.0 / count * i) > 1
               ? 1
               : (opacity + 1.0 / count * i));
         canvas.drawCircle(Offset(xOffset, offset),
-            radius - startLength + minRadius, wavePaint);
+            radius - startLength , wavePaint);
       } else {
         wavePaint
           ..color = color.withOpacity((opacity + 1.0 / count * i - 1) < 0
               ? 0
               : (opacity + 1.0 / count * i - 1));
         canvas.drawCircle(Offset(xOffset, offset),
-            radius + maxRadius - startLength, wavePaint);
+            radius + maxRadius - startLength -minRadius, wavePaint);
       }
     }
 

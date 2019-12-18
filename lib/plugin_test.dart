@@ -5,11 +5,12 @@ import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/utils.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'WaveWidget.dart';
+import 'wave_widget.dart';
 import 'animation.dart';
 import 'hero_animation.dart';
 
@@ -45,7 +46,7 @@ class PluginTestWidget extends StatelessWidget {
                   endRadius: 200,
                   color: Colors.blue[300],
                   duration: Duration(milliseconds: 2500),
-                  count: 5,
+                  count: 6,
                   paintingStyle: PaintingStyle.fill,
                 )),
           ],
@@ -59,7 +60,7 @@ class PluginTestWidget extends StatelessWidget {
       margin: EdgeInsets.all(8),
       padding: EdgeInsets.all(12),
       decoration:
-          BoxDecoration(border: Border.all(color: randomColor(), width: 1)),
+          BoxDecoration(border: Border.all(color: Utils.randomColor(), width: 1)),
       child: Column(
         children: <Widget>[
           Center(
@@ -74,10 +75,7 @@ class PluginTestWidget extends StatelessWidget {
     );
   }
 
-  Color randomColor() {
-    return Color.fromARGB(255, Random().nextInt(256) + 0,
-        Random().nextInt(256) + 0, Random().nextInt(256) + 0);
-  }
+
 }
 
 class SPTest extends StatefulWidget {

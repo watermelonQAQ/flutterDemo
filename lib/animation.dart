@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'WaveWidget.dart';
+import 'wave_widget.dart';
 
 ///创建时间：2019/12/12 14:18
 ///作者：杨淋
