@@ -5,20 +5,26 @@ import 'package:flutter/material.dart';
 ///描述：搜索波浪
 
 class WaveWidget extends StatefulWidget {
-  double beginRadius;
-  double endRadius;
-  Color color;
-  int count;
-  PaintingStyle paintingStyle;
-  Duration duration;
+  final double beginRadius;
+  final double endRadius;
+  final Color color;
+  final int count;
+  final PaintingStyle paintingStyle;
+  final Duration duration;
+  final Widget child;
+  final bool withAlpha;
+  final bool haveBackground;
 
   WaveWidget({
-    this.beginRadius,
-    this.endRadius,
-    this.color,
-    this.duration,
-    this.count,
-    this.paintingStyle,
+    this.beginRadius = 0,
+    @required this.endRadius,
+    this.color = Colors.blue,
+    this.duration = const Duration(seconds: 1),
+    this.count = 1,
+    this.paintingStyle = PaintingStyle.fill,
+    this.child,
+    this.withAlpha = true,
+    this.haveBackground = true,
   });
 
   @override
@@ -62,15 +68,13 @@ class _WaveWidgetState extends State<WaveWidget>
             maxRadius: widget.endRadius,
             paintingStyle: widget.paintingStyle,
             count: widget.count,
+            withAlpha: widget.withAlpha,
+            haveBackground:widget.haveBackground,
             context: context,
           ),
           child: RepaintBoundary(
 //              child:
-              child: Icon(
-            Icons.bluetooth,
-            color: Colors.white,
-            size: widget.beginRadius,
-          ))),
+              child:widget.child)),
     ));
   }
 }
@@ -85,6 +89,8 @@ class WavePainter extends CustomPainter {
   PaintingStyle paintingStyle;
   BuildContext context;
   int count;
+  bool withAlpha;
+  bool haveBackground;
 
   WavePainter(
       {this.color,
@@ -95,6 +101,8 @@ class WavePainter extends CustomPainter {
       this.maxRadius,
       this.paintingStyle,
       this.context,
+        this.withAlpha,
+        this.haveBackground,
       this.count});
 
   @override
@@ -128,8 +136,11 @@ class WavePainter extends CustomPainter {
       }
     }
 
-    wavePaint..color = Colors.blue;
-    canvas.drawCircle(Offset(xOffset, offset), minRadius, wavePaint);
+    if(haveBackground){
+      wavePaint..color = color.withOpacity(1);
+      canvas.drawCircle(Offset(xOffset, offset), minRadius, wavePaint);
+    }
+
   }
 
   @override
