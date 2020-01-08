@@ -7,10 +7,11 @@ import 'package:flutter_demo/plugin_test.dart';
 
 import 'blue_demo.dart';
 import 'demo2.dart';
+import 'keychain.dart';
 
 //void main() => runApp(new FlutterBlueApp());
-void main() => runApp(new PluginTestWidget());
 //void main() => runApp(new PluginTestWidget());
+void main() =>   runApp(MaterialApp(home: ItemsWidget()));
 
 
 class Demo1 extends StatelessWidget {

@@ -9,7 +9,9 @@ import 'package:flutter_demo/utils.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
+import 'keychain.dart';
 import 'wave_widget.dart';
 import 'animation.dart';
 import 'hero_animation.dart';
@@ -35,6 +37,7 @@ class PluginTestWidget extends StatelessWidget {
             addItem("SP功能测试", SPTest()),
             addItem("设备信息", DeviceInfoTest()),
             addItem("软件信息", PackageInfoTest()),
+            addItem("UUID", Text(Uuid().v5("AndroidID", "aabbccddee"))),
             addItem("定位权限申请", ApplyPermissionTest()),
             addItem("JSON序列化与反序列化", JsonTest()),
             addItem("Hero动画", HeroAnimationRoute()),
@@ -163,6 +166,7 @@ class DeviceInfoTest extends StatefulWidget {
 class _DeviceInfoTestState extends State<DeviceInfoTest> {
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   String sdkNum = "-1";
+  String id = "-1";
 
   @override
   void initState() {
@@ -176,6 +180,18 @@ class _DeviceInfoTestState extends State<DeviceInfoTest> {
       children: <Widget>[
         Text("手机版本："),
         Text(sdkNum),
+        SizedBox(
+          width: 20,
+        ),
+        Text("ID："),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child:
+              Text(id,maxLines: 1,),
+            padding: EdgeInsets.only(right: 10),
+          ),
+        ),
       ],
     );
   }
@@ -184,9 +200,12 @@ class _DeviceInfoTestState extends State<DeviceInfoTest> {
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
       sdkNum = androidDeviceInfo.version.sdkInt.toString();
+      id = androidDeviceInfo.androidId;
     } else if (Platform.isIOS) {
       IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
       sdkNum = iosDeviceInfo.systemVersion;
+      id = iosDeviceInfo.identifierForVendor;
+      print("id:"+id);
     }
     setState(() {});
   }
