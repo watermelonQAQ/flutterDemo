@@ -1,0 +1,22 @@
+{
+  "@@last_modified": "2020-01-19T10:11:12.184118",
+  "@@locale":"zh",
+  "title": "中文标题",
+  "@title": {
+    "description": "应用标题",
+    "type": "text",
+    "placeholders": {}
+  },
+  "click": "Click",
+  "@click": {
+    "description": "中文点击",
+    "type": "text",
+    "placeholders": {}
+  },
+  "helloFromDemo": "中文问候",
+  "@helloFromDemo": {
+    "description": "一句问候",
+    "type": "text",
+    "placeholders": {}
+  }
+}

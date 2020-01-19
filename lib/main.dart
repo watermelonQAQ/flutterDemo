@@ -10,8 +10,8 @@ import 'demo2.dart';
 import 'keychain.dart';
 
 //void main() => runApp(new FlutterBlueApp());
-//void main() => runApp(new PluginTestWidget());
-void main() =>   runApp(MaterialApp(home: ItemsWidget()));
+void main() => runApp(new PluginTestWidget());
+//void main() =>   runApp(MaterialApp(home: ItemsWidget()));
 
 
 class Demo1 extends StatelessWidget {
@@ -41,6 +41,8 @@ class RandomWordsState extends State<RandomWords> {
 
   @override
   Widget build(BuildContext context) {
+
+    Localizations.localeOf(context);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Startup Name Generator"),

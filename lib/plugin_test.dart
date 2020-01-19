@@ -5,7 +5,10 @@ import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/app_strings.dart';
+import 'package:flutter_demo/localizations_delegate.dart';
 import 'package:flutter_demo/utils.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +27,18 @@ import 'hero_animation.dart';
 class PluginTestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
     return new MaterialApp(
+      localizationsDelegates: [
+        AppLocalizationsDelegate(), // 我们定义的代理
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [ // 支持的语言类型
+        const Locale('en', 'US'), // English
+        const Locale('zh', 'CN'),
+      ],
       theme: new ThemeData(
         primaryColor: Colors.blue,
       ),
@@ -36,6 +50,7 @@ class PluginTestWidget extends StatelessWidget {
           children: <Widget>[
             addItem("SP功能测试", SPTest()),
             addItem("设备信息", DeviceInfoTest()),
+            addItem("国际化", Text("")),
             addItem("软件信息", PackageInfoTest()),
             addItem("UUID", Text(Uuid().v5("AndroidID", "aabbccddee"))),
             addItem("定位权限申请", ApplyPermissionTest()),
@@ -139,6 +154,7 @@ class _SPTestState extends State<SPTest> {
           color: Colors.blue,
           child: Text("保存"),
           onPressed: () {
+            debugPrint("获取title："+AppStrings.of(context).title());
             _saveInput();
           },
         )

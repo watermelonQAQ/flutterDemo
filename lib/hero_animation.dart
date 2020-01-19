@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'app_strings.dart';
+
 ///创建时间：2019/12/11 15:53
 ///作者：杨淋
 ///描述：
