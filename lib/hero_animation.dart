@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:launch_review/launch_review.dart';
 
 import 'app_strings.dart';
 
@@ -37,6 +38,9 @@ class HeroAnimationRoute extends StatelessWidget {
                 );
               })
           );
+
+          LaunchReview.launch(androidAppId:"com.lamp.control");
+
         },
       ),
     );

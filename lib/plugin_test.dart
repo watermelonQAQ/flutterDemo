@@ -30,6 +30,7 @@ class PluginTestWidget extends StatelessWidget {
 
 
     return new MaterialApp(
+      locale: null,
       localizationsDelegates: [
         AppLocalizationsDelegate(), // 我们定义的代理
         GlobalMaterialLocalizations.delegate,
