@@ -38,6 +38,8 @@ dependencies:
   intl_translation: ^0.17.2
   launch_review: ^2.0.0
   lcfarm_flutter_umeng: ^0.1.8
+  dio: ^3.0.8 #网络访问
+
 
 
 dev_dependencies:
